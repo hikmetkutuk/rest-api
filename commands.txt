@@ -1,0 +1,3 @@
+tsc --init
+npm i express body-parser dotenv
+npm i --save-dev @types/express @types/body-parser @types/dotenv
