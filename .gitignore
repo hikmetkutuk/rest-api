@@ -1,4 +1,6 @@
 node_modules/**/*
 .vscode/**/*
 
+source/web/config/config.ts
+commands.txt
 package-lock.json

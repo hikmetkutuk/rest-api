@@ -2,10 +2,12 @@ import http from "http";
 import express from "express";
 import bodyParser from "body-parser";
 
-import logging from "./config/logging";
-import config from "./config/config";
+import logging from "./web/config/logging";
+import config from "./web/config/config";
+import connect from "./web/config/database";
 
 const NAMESPACE = "Server";
+const db: string = config.server.uri;
 const router = express();
 
 // Logging the request
@@ -67,3 +69,6 @@ httpServer.listen(config.server.port, () => logging.info(NAMESPACE, `Server is r
 }:${
     config.server.port
 }`))
+
+// Connect db
+connect(db);
