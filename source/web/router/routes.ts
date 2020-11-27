@@ -6,4 +6,3 @@ const routes = Router();
 routes.get('/products', productController.index);
     
 export default routes;
-

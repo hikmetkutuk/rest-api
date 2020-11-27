@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import logging from "./web/config/logging";
 import config from "./web/config/config";
 import connect from "./web/config/database";
+import routes from "./web/router/routes";
 
 const NAMESPACE = "Server";
 const db: string = config.server.uri;
@@ -54,6 +55,7 @@ router.use((req, res, next) => {
 })
 
 // Routes
+router.use(routes);
 
 // Error Handling
 router.use((req, res, next) => {
