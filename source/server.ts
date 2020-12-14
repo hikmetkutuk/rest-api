@@ -1,76 +1,57 @@
-import http from "http";
-import express from "express";
-import bodyParser from "body-parser";
+import http from 'http';
+import express from 'express';
+import bodyParser from 'body-parser';
 
-import logging from "./web/config/logging";
-import config from "./web/config/config";
-import connect from "./web/config/database";
-import routes from "./web/router/routes";
+import logging from './config/logging';
+import config from './config/config';
+import connect from './config/database';
+import routes from './web/router/routes';
 
-const NAMESPACE = "Server";
+const NAMESPACE = 'Server';
 const db: string = config.server.uri;
 const router = express();
 
 // Logging the request
 router.use((req, res, next) => {
-    logging.info(NAMESPACE, `METHOD - [${
-        req.method
-    }], URL - [${
-        req.url
-    }], IP -[${
-        req.socket.remoteAddress
-    }]`);
+    logging.info(NAMESPACE, `METHOD - [${req.method}], URL - [${req.url}], IP -[${req.socket.remoteAddress}]`);
 
-    res.on("finish", () => {
-        logging.info(NAMESPACE, `METHOD - [${
-            req.method
-        }], URL - [${
-            req.url
-        }], IP -[${
-            req.socket.remoteAddress
-        }], STATUS - [${
-            res.statusCode
-        }]`);
-
-    })
+    res.on('finish', () => {
+        logging.info(NAMESPACE, `METHOD - [${req.method}], URL - [${req.url}], IP -[${req.socket.remoteAddress}], STATUS - [${res.statusCode}]`);
+    });
 
     next();
-})
+});
 
 // Parse the request
-router.use(bodyParser.urlencoded({extended: false}))
-router.use(bodyParser.json())
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json());
 
 // Rules of API
 router.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*")
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
-    if (req.method == "OPTIONS") {
-        res.header("Access-Control-Allow-Methods", "GET PATCH DELETE POST PUT")
+    if (req.method == 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', 'GET PATCH DELETE POST PUT');
         return res.status(200).json({});
     }
 
     next();
-})
+});
 
 // Routes
 router.use(routes);
 
 // Error Handling
 router.use((req, res, next) => {
-    const error = new Error("not found");
+    const error = new Error('not found');
 
-    return res.status(404).json({message: error.message})
-})
+    return res.status(404).json({ message: error.message });
+});
 
 // Create the server
 const httpServer = http.createServer(router);
-httpServer.listen(config.server.port, () => logging.info(NAMESPACE, `Server is running on ${
-    config.server.hostname
-}:${
-    config.server.port
-}`))
+httpServer.listen(config.server.port, () => logging.info(NAMESPACE, `Server is running on ${config.server.hostname}:${config.server.port}`));
 
 // Connect db
 connect(db);

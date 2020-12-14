@@ -4,3 +4,4 @@ node_modules/**/*
 source/web/config/config.ts
 commands.txt
 package-lock.json
+yarn.lock
