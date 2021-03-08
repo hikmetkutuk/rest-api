@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
+import { RequestHandler } from 'express';
 
 import Order, { IOrder } from '../../model/Order';
 
-export const index = async (req: Request, res: Response) => {
+export const index: RequestHandler = async (req, res, next) => {
     try {
         const orders: IOrder[] = await Order.find();
         res.status(200).json({ orders });
@@ -11,7 +11,7 @@ export const index = async (req: Request, res: Response) => {
     }
 };
 
-export const show = async (req: Request, res: Response) => {
+export const show: RequestHandler = async (req, res, next) => {
     try {
         await Order.findById(req.params.id, (order: any) => {
             res.status(200).json({ order });
@@ -21,7 +21,7 @@ export const show = async (req: Request, res: Response) => {
     }
 };
 
-export const store = async (req: Request, res: Response): Promise<void> => {
+export const store: RequestHandler = async (req, res, next): Promise<void> => {
     try {
         const body = req.body as Pick<IOrder, 'product_id' | 'quantity'>;
 
@@ -31,13 +31,13 @@ export const store = async (req: Request, res: Response): Promise<void> => {
         });
 
         const newOrder: IOrder = await order.save();
-        res.status(200).json({ order: newOrder });
+        res.status(201).json({ order: newOrder });
     } catch (err) {
         res.status(500).send(err);
     }
 };
 
-export const update = async (req: Request, res: Response) => {
+export const update: RequestHandler = async (req, res, next) => {
     try {
         await Order.findByIdAndUpdate(req.params.id, req.body, () => {
             res.status(200).send('Succesfully updated the order');
@@ -47,7 +47,7 @@ export const update = async (req: Request, res: Response) => {
     }
 };
 
-export const destroy = async (req: Request, res: Response) => {
+export const destroy: RequestHandler = async (req, res, next) => {
     try {
         await Order.deleteOne({ _id: req.params.id }, () => {
             res.status(200).send('Succesfully deleted the order');

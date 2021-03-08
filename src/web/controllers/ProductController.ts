@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
+import { RequestHandler } from 'express';
 
 import Product, { IProduct } from '../../model/Product';
 
-export const index = async (req: Request, res: Response) => {
+export const index: RequestHandler = async (req, res, next) => {
     try {
         const products: IProduct[] = await Product.find();
         res.status(200).json({ products });
@@ -11,7 +11,7 @@ export const index = async (req: Request, res: Response) => {
     }
 };
 
-export const show = async (req: Request, res: Response) => {
+export const show: RequestHandler = async (req, res, next) => {
     try {
         await Product.findById(req.params.id, (err: any, product: any) => {
             res.status(200).json({ product });
@@ -21,7 +21,7 @@ export const show = async (req: Request, res: Response) => {
     }
 };
 
-export const store = async (req: Request, res: Response): Promise<void> => {
+export const store: RequestHandler = async (req, res, next): Promise<void> => {
     try {
         const body = req.body as Pick<IProduct, 'name' | 'price'>;
 
@@ -29,7 +29,7 @@ export const store = async (req: Request, res: Response): Promise<void> => {
             name: body.name,
             price: body.price
         });
-
+        console.log(body.name);
         const newProduct: IProduct = await product.save();
         res.status(201).json({ product: newProduct });
     } catch (err) {
@@ -37,7 +37,7 @@ export const store = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
-export const update = async (req: Request, res: Response) => {
+export const update: RequestHandler = async (req, res, next) => {
     try {
         await Product.findByIdAndUpdate(req.params.id, req.body, () => {
             res.status(200).send('Succesfully updated the product');
@@ -47,7 +47,7 @@ export const update = async (req: Request, res: Response) => {
     }
 };
 
-export const destroy = async (req: Request, res: Response) => {
+export const destroy: RequestHandler = async (req, res, next) => {
     try {
         await Product.deleteOne({ _id: req.params.id }, () => {
             res.status(200).send('Succesfully deleted the product');

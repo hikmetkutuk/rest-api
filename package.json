@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "build": "rm -rf build/ && prettier --write source/ && tsc",
-    "start": "nodemon source/server.ts"
+    "start": "nodemon dist/server.j s"
   },
   "keywords": [
     "Node",
