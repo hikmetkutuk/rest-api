@@ -14,28 +14,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.destroy = exports.update = exports.store = exports.show = exports.index = void 0;
 const Product_1 = __importDefault(require("../../model/Product"));
-const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const index = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const products = yield Product_1.default.find();
-        res.status(200).json({ products });
+        res.status(200).json({ success: true, products });
     }
     catch (err) {
-        res.send(err);
+        res.json({ success: false, err });
     }
 });
 exports.index = index;
-const show = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield Product_1.default.findById(req.params.id, (err, product) => {
-            res.status(200).json({ product });
-        });
+        const product = yield Product_1.default.findById(req.params.id);
+        res.status(200).json({ success: true, product });
     }
     catch (err) {
-        res.status(500).send(err);
+        res.status(400).json({ success: false, err });
     }
 });
 exports.show = show;
-const store = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
         const product = new Product_1.default({
@@ -44,32 +43,30 @@ const store = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
         console.log(body.name);
         const newProduct = yield product.save();
-        res.status(201).json({ product: newProduct });
+        res.status(201).json({ success: true, product: newProduct });
     }
     catch (err) {
-        res.send(err);
+        res.json({ success: false, err });
     }
 });
 exports.store = store;
-const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield Product_1.default.findByIdAndUpdate(req.params.id, req.body, () => {
-            res.status(200).send('Succesfully updated the product');
-        });
+        const updatedProduct = yield Product_1.default.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.status(200).json({ success: true, message: 'Succesfully updated the product', updatedProduct });
     }
     catch (err) {
-        res.status(500).send(err);
+        res.status(400).json({ success: false, err });
     }
 });
 exports.update = update;
-const destroy = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const destroy = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield Product_1.default.deleteOne({ _id: req.params.id }, () => {
-            res.status(200).send('Succesfully deleted the product');
-        });
+        yield Product_1.default.deleteOne({ _id: req.params.id });
+        res.status(200).json({ success: true, message: 'Succesfully deleted the product' });
     }
     catch (err) {
-        res.status(500).send(err);
+        res.status(400).json({ success: false, err });
     }
 });
 exports.destroy = destroy;

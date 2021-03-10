@@ -14,28 +14,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.destroy = exports.update = exports.store = exports.show = exports.index = void 0;
 const Order_1 = __importDefault(require("../../model/Order"));
-const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const index = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const orders = yield Order_1.default.find();
-        res.status(200).json({ orders });
+        res.status(200).json({ success: true, orders });
     }
     catch (err) {
-        res.status(500).send(err);
+        res.status(400).json({ success: false, err });
     }
 });
 exports.index = index;
-const show = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield Order_1.default.findById(req.params.id, (order) => {
-            res.status(200).json({ order });
-        });
+        const order = yield Order_1.default.findById(req.params.id);
+        res.status(200).json({ success: true, order });
     }
     catch (err) {
-        res.status(500).send(err);
+        res.status(400).json({ success: false, err });
     }
 });
 exports.show = show;
-const store = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
         const order = new Order_1.default({
@@ -43,32 +42,30 @@ const store = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             quantity: body.quantity
         });
         const newOrder = yield order.save();
-        res.status(200).json({ order: newOrder });
+        res.status(201).json({ success: true, order: newOrder });
     }
     catch (err) {
-        res.status(500).send(err);
+        res.status(400).json({ success: false, err });
     }
 });
 exports.store = store;
-const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield Order_1.default.findByIdAndUpdate(req.params.id, req.body, () => {
-            res.status(200).send('Succesfully updated the order');
-        });
+        const updatedOrder = yield Order_1.default.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.status(200).json({ success: true, message: 'Succesfully updated the order', updatedOrder });
     }
     catch (err) {
-        res.status(500).send(err);
+        res.status(400).json({ success: false, err });
     }
 });
 exports.update = update;
-const destroy = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const destroy = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield Order_1.default.deleteOne({ _id: req.params.id }, () => {
-            res.status(200).send('Succesfully deleted the order');
-        });
+        yield Order_1.default.deleteOne({ _id: req.params.id });
+        res.status(200).json({ success: true, message: 'Succesfully deleted the order' });
     }
     catch (err) {
-        res.status(500).send(err);
+        res.status(400).json({ success: false, err });
     }
 });
 exports.destroy = destroy;

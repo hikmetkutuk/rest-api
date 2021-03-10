@@ -1,8 +1,8 @@
 node_modules/**/*
 .vscode/**/*
 
-src/web/config/config.ts
-dist/web/config/config.js
+src/config/config.ts
+dist/config/config.js
 commands.txt
 package-lock.json
 yarn.lock
