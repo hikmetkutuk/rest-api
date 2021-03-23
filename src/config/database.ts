@@ -1,23 +1,26 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-import logging from "./logging";
+import logging from './logging';
 
-const NAMESPACE = "mongoDB";
+const NAMESPACE = 'mongoDB';
 
-export default(db : string) => {
+export default (db: string) => {
     const connect = () => {
-        mongoose.connect(db, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        }).then(() => {
-
-            return logging.info(NAMESPACE, `Succesfully connected to ${NAMESPACE}`)
-        }).catch(error => {
-            logging.error("Error connecting to database: ", error);
-            return process.exit(1);
-        });
+        mongoose
+            .connect(db, {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+                useCreateIndex: true
+            })
+            .then(() => {
+                return logging.info(NAMESPACE, `Succesfully connected to ${NAMESPACE}`);
+            })
+            .catch((error) => {
+                logging.error('Error connecting to database: ', error);
+                return process.exit(1);
+            });
     };
     connect();
 
-    mongoose.connection.on("disconnected", connect);
+    mongoose.connection.on('disconnected', connect);
 };

@@ -1,6 +1,8 @@
 import { Router } from 'express';
+
 import * as productController from '../controllers/ProductController';
 import * as orderController from '../controllers/OrderController';
+import * as authController from '../controllers/AuthController';
 
 const router = Router();
 
@@ -16,4 +18,5 @@ router.post('/api/add-order', orderController.store);
 router.put('/api/edit-order/:id', orderController.update);
 router.delete('/api/delete-order/:id', orderController.destroy);
 
+router.post('/api/auth/register', authController.register);
 export default router;
