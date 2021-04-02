@@ -35,4 +35,5 @@ router.post('/api/add-order', orderController.store);
 router.put('/api/edit-order/:id', orderController.update);
 router.delete('/api/delete-order/:id', orderController.destroy);
 router.post('/api/auth/register', authController.register);
+router.post('/api/auth/login', authController.login);
 exports.default = router;
