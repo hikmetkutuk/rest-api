@@ -41,7 +41,7 @@ export const login = async (req: Request, res: Response) => {
                 const token = jwt.sign({ _id: user._id, role: user.role }, config.server.secret, { expiresIn: config.server.expire });
                 const { _id, name, email, role } = user;
 
-                res.status(200).json({ success: true, token, user: { _id, name, email, role } });
+                res.status(200).cookie('authcookie', token, { maxAge: 900000, httpOnly: true }).json({ success: true, token, user: { _id, name, email, role } });
             } else {
                 return res.status(401).json({ success: false, message: 'Invalid password' });
             }

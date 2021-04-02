@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const http_1 = __importDefault(require("http"));
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const logging_1 = __importDefault(require("./config/logging"));
 const config_1 = __importDefault(require("./config/config"));
 const database_1 = __importDefault(require("./config/database"));
@@ -24,6 +25,8 @@ router.use((req, res, next) => {
 // Parse the request
 router.use(body_parser_1.default.json());
 router.use(body_parser_1.default.urlencoded({ extended: true }));
+// Cookie Parser
+router.use(cookie_parser_1.default());
 // Rules of API
 router.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');

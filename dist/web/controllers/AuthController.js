@@ -52,7 +52,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             if (validPassword) {
                 const token = jsonwebtoken_1.default.sign({ _id: user._id, role: user.role }, config_1.default.server.secret, { expiresIn: config_1.default.server.expire });
                 const { _id, name, email, role } = user;
-                res.status(200).json({ success: true, token, user: { _id, name, email, role } });
+                res.status(200).cookie('authcookie', token, { maxAge: 900000, httpOnly: true }).json({ success: true, token, user: { _id, name, email, role } });
             }
             else {
                 return res.status(401).json({ success: false, message: 'Invalid password' });
