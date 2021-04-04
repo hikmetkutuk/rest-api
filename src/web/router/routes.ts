@@ -4,15 +4,15 @@ import * as productController from '../controllers/ProductController';
 import * as orderController from '../controllers/OrderController';
 import * as authController from '../controllers/AuthController';
 
-import { checkJwt } from '../../middleware/auth';
+import { checkJwt, checkRole } from '../../middleware/auth';
 
 const router = Router();
 
 router.get('/api/products', productController.index);
 router.get('/api/product/:id', productController.show);
-router.post('/api/add-product', [checkJwt], productController.store);
-router.put('/api/edit-product/:id', [checkJwt], productController.update);
-router.delete('/api/delete-product/:id', [checkJwt], productController.destroy);
+router.post('/api/add-product', [checkJwt, checkRole(['admin'])], productController.store);
+router.put('/api/edit-product/:id', [checkJwt, checkRole(['admin'])], productController.update);
+router.delete('/api/delete-product/:id', [checkJwt, checkRole(['admin'])], productController.destroy);
 
 router.get('/api/orders', orderController.index);
 router.get('/api/order/:id', orderController.show);

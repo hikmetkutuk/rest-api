@@ -1,9 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
+import { RequestHandler, Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 
 import config from '../config/config';
+import User from '../model/User';
 
-export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
+export const checkJwt: RequestHandler = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (authHeader) {
@@ -34,4 +35,18 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
     } else {
         return res.status(401).json({ success: false, message: 'Authorization required!' });
     }
+};
+
+export const checkRole = (roles: Array<string>) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
+        const id = res.locals.jwtPayload._id;
+
+        const user = await User.findById(id);
+
+        if (roles.indexOf(user.role) > -1) {
+            next();
+        } else {
+            return res.status(401).json({ success: false, message: 'User is not authorized to access this!' });
+        }
+    };
 };
