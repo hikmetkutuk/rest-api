@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.destroy = exports.update = exports.store = exports.show = exports.index = void 0;
 const Order_1 = __importDefault(require("../../model/Order"));
-const index = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const orders = yield Order_1.default.find();
         res.status(200).json({ success: true, orders });
@@ -24,7 +24,7 @@ const index = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.index = index;
-const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const show = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const order = yield Order_1.default.findById(req.params.id);
         res.status(200).json({ success: true, order });
@@ -34,7 +34,7 @@ const show = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.show = show;
-const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const store = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
         const order = new Order_1.default({
@@ -49,7 +49,7 @@ const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.store = store;
-const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const updatedOrder = yield Order_1.default.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.status(200).json({ success: true, message: 'Succesfully updated the order', updatedOrder });
@@ -59,7 +59,7 @@ const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.update = update;
-const destroy = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const destroy = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield Order_1.default.deleteOne({ _id: req.params.id });
         res.status(200).json({ success: true, message: 'Succesfully deleted the order' });

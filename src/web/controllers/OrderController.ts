@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 
 import Order, { IOrder } from '../../model/Order';
 
-export const index: RequestHandler = async (req, res, next) => {
+export const index: RequestHandler = async (req, res) => {
     try {
         const orders: IOrder[] = await Order.find();
         res.status(200).json({ success: true, orders });
@@ -11,7 +11,7 @@ export const index: RequestHandler = async (req, res, next) => {
     }
 };
 
-export const show: RequestHandler = async (req, res, next) => {
+export const show: RequestHandler = async (req, res) => {
     try {
         const order = await Order.findById(req.params.id);
         res.status(200).json({ success: true, order });
@@ -20,7 +20,7 @@ export const show: RequestHandler = async (req, res, next) => {
     }
 };
 
-export const store: RequestHandler = async (req, res, next) => {
+export const store: RequestHandler = async (req, res) => {
     try {
         const body = req.body as Pick<IOrder, 'product_id' | 'quantity'>;
         const order: IOrder = new Order({
@@ -35,7 +35,7 @@ export const store: RequestHandler = async (req, res, next) => {
     }
 };
 
-export const update: RequestHandler = async (req, res, next) => {
+export const update: RequestHandler = async (req, res) => {
     try {
         const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.status(200).json({ success: true, message: 'Succesfully updated the order', updatedOrder });
@@ -44,7 +44,7 @@ export const update: RequestHandler = async (req, res, next) => {
     }
 };
 
-export const destroy: RequestHandler = async (req, res, next) => {
+export const destroy: RequestHandler = async (req, res) => {
     try {
         await Order.deleteOne({ _id: req.params.id });
         res.status(200).json({ success: true, message: 'Succesfully deleted the order' });

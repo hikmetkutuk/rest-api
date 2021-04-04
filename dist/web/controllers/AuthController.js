@@ -31,6 +31,9 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             email: body.email,
             password: hash_password
         });
+        if (body.role) {
+            _user.role = body.role;
+        }
         const newUser = yield _user.save();
         res.status(201).json({ success: true, user: newUser });
     }
@@ -45,14 +48,11 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield User_1.default.findOne({ email: req.body.email });
         if (user) {
-            console.log('name:' + user.name);
-            console.log('email:' + user.email);
-            console.log('pass:' + user.password);
             const validPassword = bcrypt_1.default.compareSync(req.body.password, user.password);
             if (validPassword) {
                 const token = jsonwebtoken_1.default.sign({ _id: user._id, role: user.role }, config_1.default.server.secret, { expiresIn: config_1.default.server.expire });
                 const { _id, name, email, role } = user;
-                res.status(200).cookie('authcookie', token, { maxAge: 900000, httpOnly: true }).json({ success: true, token, user: { _id, name, email, role } });
+                return res.status(200).cookie('token', token, { maxAge: 900000, httpOnly: true }).json({ success: true, token, user: { _id, name, email, role } });
             }
             else {
                 return res.status(401).json({ success: false, message: 'Invalid password' });

@@ -10,7 +10,8 @@ export default (db: string) => {
             .connect(db, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
-                useCreateIndex: true
+                useCreateIndex: true,
+                useFindAndModify: false
             })
             .then(() => {
                 return logging.info(NAMESPACE, `Succesfully connected to ${NAMESPACE}`);

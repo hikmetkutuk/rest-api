@@ -1,6 +1,6 @@
 import http from 'http';
 import express from 'express';
-import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 
 import logging from './config/logging';
 import config from './config/config';
@@ -9,10 +9,10 @@ import routes from './web/router/routes';
 
 const NAMESPACE = 'Server';
 const db: string = config.server.uri;
-const router = express();
+const app = express();
 
 // Logging the request
-router.use((req, res, next) => {
+app.use((req, res, next) => {
     logging.info(NAMESPACE, `METHOD - [${req.method}], URL - [${req.url}], IP -[${req.socket.remoteAddress}]`);
 
     res.on('finish', () => {
@@ -22,12 +22,15 @@ router.use((req, res, next) => {
     next();
 });
 
+// Cookie Parser
+app.use(cookieParser());
+
 // Parse the request
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Rules of API
-router.use((req, res, next) => {
+app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
@@ -40,17 +43,17 @@ router.use((req, res, next) => {
 });
 
 // Routes
-router.use(routes);
+app.use(routes);
 
 // Error Handling
-router.use((req, res, next) => {
+app.use((req, res, next) => {
     const error = new Error('not found');
 
     return res.status(404).json({ message: error.message });
 });
 
 // Create the server
-const httpServer = http.createServer(router);
+const httpServer = http.createServer(app);
 httpServer.listen(config.server.port, () => logging.info(NAMESPACE, `Server is running on ${config.server.hostname}:${config.server.port}`));
 
 // Connect db
