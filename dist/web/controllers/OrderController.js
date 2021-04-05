@@ -14,6 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.destroy = exports.update = exports.store = exports.show = exports.index = void 0;
 const Order_1 = __importDefault(require("../../model/Order"));
+// @desc    List orders
+// @route   GET /api/orders
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const orders = yield Order_1.default.find();
@@ -24,6 +26,8 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.index = index;
+// @desc    Get order
+// @route   GET /api/order/:id
 const show = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const order = yield Order_1.default.findById(req.params.id);
@@ -34,6 +38,8 @@ const show = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.show = show;
+// @desc    Create new order
+// @route   POST /api/add-order
 const store = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
@@ -49,6 +55,8 @@ const store = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.store = store;
+// @desc    Edit order
+// @route   POST /api/edit-order/:id
 const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const updatedOrder = yield Order_1.default.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -59,6 +67,8 @@ const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.update = update;
+// @desc    Delete order
+// @route   POST /api/delete-order/:id
 const destroy = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield Order_1.default.deleteOne({ _id: req.params.id });

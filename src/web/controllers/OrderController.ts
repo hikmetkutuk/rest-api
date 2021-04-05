@@ -2,6 +2,8 @@ import { RequestHandler } from 'express';
 
 import Order, { IOrder } from '../../model/Order';
 
+// @desc    List orders
+// @route   GET /api/orders
 export const index: RequestHandler = async (req, res) => {
     try {
         const orders: IOrder[] = await Order.find();
@@ -11,6 +13,8 @@ export const index: RequestHandler = async (req, res) => {
     }
 };
 
+// @desc    Get order
+// @route   GET /api/order/:id
 export const show: RequestHandler = async (req, res) => {
     try {
         const order = await Order.findById(req.params.id);
@@ -20,9 +24,12 @@ export const show: RequestHandler = async (req, res) => {
     }
 };
 
+// @desc    Create new order
+// @route   POST /api/add-order
 export const store: RequestHandler = async (req, res) => {
     try {
         const body = req.body as Pick<IOrder, 'product_id' | 'quantity'>;
+
         const order: IOrder = new Order({
             product_id: body.product_id,
             quantity: body.quantity
@@ -35,6 +42,8 @@ export const store: RequestHandler = async (req, res) => {
     }
 };
 
+// @desc    Edit order
+// @route   POST /api/edit-order/:id
 export const update: RequestHandler = async (req, res) => {
     try {
         const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -44,6 +53,8 @@ export const update: RequestHandler = async (req, res) => {
     }
 };
 
+// @desc    Delete order
+// @route   POST /api/delete-order/:id
 export const destroy: RequestHandler = async (req, res) => {
     try {
         await Order.deleteOne({ _id: req.params.id });

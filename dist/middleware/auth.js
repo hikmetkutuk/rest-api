@@ -74,7 +74,7 @@ const checkRole = (roles) => {
             next();
         }
         else {
-            return res.status(401).json({ success: false, message: 'User role authorization failed!' });
+            return res.status(401).json({ success: false, message: 'User is not authorized to access this!' });
         }
     });
 };
