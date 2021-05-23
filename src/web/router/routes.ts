@@ -2,9 +2,9 @@ import { Router } from 'express';
 
 import * as productController from '../controllers/ProductController';
 import * as orderController from '../controllers/OrderController';
-import * as authController from '../controllers/AuthController';
+import { AuthController } from '../controllers/AuthController';
 
-import { checkJwt, checkRole } from '../../middleware/auth';
+import { checkJwt, checkRole } from '../../infrastructure/middleware/auth';
 
 const router = Router();
 
@@ -20,7 +20,7 @@ router.post('/api/add-order', orderController.store);
 router.put('/api/edit-order/:id', orderController.update);
 router.delete('/api/delete-order/:id', orderController.destroy);
 
-router.post('/api/auth/register', authController.register);
-router.post('/api/auth/login', authController.login);
+router.post('/api/auth/register', AuthController.register);
+router.post('/api/auth/login', AuthController.login);
 
 export default router;

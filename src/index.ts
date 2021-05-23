@@ -2,9 +2,9 @@ import http from 'http';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 
-import logging from './config/logging';
-import config from './config/config';
-import connect from './config/database';
+import logging from './infrastructure/config/logging';
+import config from './infrastructure/config';
+import connect from './infrastructure/config/database';
 import routes from './web/router/routes';
 
 const NAMESPACE = 'Server';

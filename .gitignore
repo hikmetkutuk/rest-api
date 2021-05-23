@@ -1,8 +1,50 @@
-node_modules/**/*
-.vscode/**/*
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
 
-src/config/config.ts
-dist/config/config.js
-commands.txt
-package-lock.json
+pids
+logs
+results
+tmp
+.vscode
+
+# Build
+public/css/main.css
+
+# Coverage reports
+coverage
+
+# API keys and secrets
+.env
+
+# config
+src/infrastructure/config/index.ts
+
+# Dependency directory
+node_modules
+bower_components
+docker-compose
+
+# Editors
+.idea
+*.iml
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Ignore built ts files
+dist
+
+# Ignore requests
+requests.rest
+
+# ignore yarn.lock
 yarn.lock
+package-lock.json
