@@ -1,24 +1,24 @@
 import { Router } from 'express';
 
-import * as productController from '../controllers/ProductController';
-import * as orderController from '../controllers/OrderController';
+import { ProductController } from '../controllers/ProductController';
+import { OrderController } from '../controllers/OrderController';
 import { AuthController } from '../controllers/AuthController';
 
 import { checkJwt, checkRole } from '../../infrastructure/middleware/auth';
 
 const router = Router();
 
-router.get('/api/products', productController.index);
-router.get('/api/product/:id', productController.show);
-router.post('/api/add-product', [checkJwt, checkRole(['admin'])], productController.store);
-router.put('/api/edit-product/:id', [checkJwt, checkRole(['admin'])], productController.update);
-router.delete('/api/delete-product/:id', [checkJwt, checkRole(['admin'])], productController.destroy);
+router.get('/api/products', ProductController.index);
+router.get('/api/product/:id', ProductController.show);
+router.post('/api/add-product', [checkJwt, checkRole(['admin'])], ProductController.store);
+router.put('/api/edit-product/:id', [checkJwt, checkRole(['admin'])], ProductController.update);
+router.delete('/api/delete-product/:id', [checkJwt, checkRole(['admin'])], ProductController.destroy);
 
-router.get('/api/orders', orderController.index);
-router.get('/api/order/:id', orderController.show);
-router.post('/api/add-order', orderController.store);
-router.put('/api/edit-order/:id', orderController.update);
-router.delete('/api/delete-order/:id', orderController.destroy);
+router.get('/api/orders', OrderController.index);
+router.get('/api/order/:id', OrderController.show);
+router.post('/api/add-order', OrderController.store);
+router.put('/api/edit-order/:id', OrderController.update);
+router.delete('/api/delete-order/:id', OrderController.destroy);
 
 router.post('/api/auth/register', AuthController.register);
 router.post('/api/auth/login', AuthController.login);
