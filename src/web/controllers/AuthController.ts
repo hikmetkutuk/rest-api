@@ -13,7 +13,7 @@ export class AuthController extends BaseController {
     static register: RequestHandler = async (req, res) => {
         try {
             const user = await User.findOne({ email: req.body.email });
-            if (user) return res.status(400).json({ success: false, message: 'User already exist' });
+            if (user) return res.status(applicationStatus.INVALID_INPUT).json({ success: false, message: 'User already exist' });
 
             const body = req.body as Pick<IUser, 'name' | 'email' | 'password' | 'role'>;
             const hash_password = bcrypt.hashSync(body.password, 10);

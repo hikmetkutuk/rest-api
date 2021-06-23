@@ -39,7 +39,7 @@ export class OrderController extends BaseController {
             });
 
             const newOrder: IOrder = await order.save();
-            res.status(201).json({ success: true, order: newOrder });
+            res.status(applicationStatus.CREATED).json({ success: true, order: newOrder });
         } catch (err) {
             res.status(applicationStatus.INVALID_INPUT).json({ success: false, error: err.message });
         }
@@ -61,9 +61,9 @@ export class OrderController extends BaseController {
     static destroy: RequestHandler = async (req, res) => {
         try {
             await Order.deleteOne({ _id: req.params.id });
-            res.status(200).json({ success: true, message: 'Succesfully deleted the order' });
+            res.status(applicationStatus.SUCCESS).json({ success: true, message: 'Succesfully deleted the order' });
         } catch (err) {
-            res.status(400).json({ success: false, error: err.message });
+            res.status(applicationStatus.INVALID_INPUT).json({ success: false, error: err.message });
         }
     };
 }

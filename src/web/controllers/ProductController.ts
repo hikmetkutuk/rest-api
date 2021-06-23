@@ -37,7 +37,7 @@ export class ProductController extends BaseController {
                 price: body.price
             });
             const newProduct: IProduct = await product.save();
-            res.status(201).json({ success: true, product: newProduct });
+            res.status(applicationStatus.CREATED).json({ success: true, product: newProduct });
         } catch (err) {
             res.status(applicationStatus.INVALID_INPUT).json({ success: false, error: err.message });
         }
