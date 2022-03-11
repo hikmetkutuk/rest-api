@@ -31,7 +31,7 @@ export class AuthController extends BaseController {
             const newUser: IUser = await _user.save();
             res.status(applicationStatus.CREATED).json({ success: true, user: newUser });
         } catch (err) {
-            res.status(applicationStatus.INTERNAL_ERROR).json({ success: false, error: err.message });
+            res.status(applicationStatus.INTERNAL_ERROR).json({ success: false, error: err });
         }
     };
 
@@ -54,7 +54,7 @@ export class AuthController extends BaseController {
                 return res.status(applicationStatus.UNAUTHORIZED).json({ success: false, message: 'Something went wrong' });
             }
         } catch (err) {
-            res.status(applicationStatus.INTERNAL_ERROR).json({ success: false, error: err.message });
+            res.status(applicationStatus.INTERNAL_ERROR).json({ success: false, error: err });
         }
     };
 }

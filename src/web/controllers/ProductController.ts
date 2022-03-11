@@ -12,7 +12,7 @@ export class ProductController extends BaseController {
             const products: IProduct[] = await Product.find();
             res.status(applicationStatus.SUCCESS).json({ success: true, products });
         } catch (err) {
-            res.status(applicationStatus.INVALID_INPUT).json({ success: false, error: err.message });
+            res.status(applicationStatus.INVALID_INPUT).json({ success: false, error: err });
         }
     };
 
@@ -23,7 +23,7 @@ export class ProductController extends BaseController {
             const product = await Product.findById(req.params.id);
             res.status(applicationStatus.SUCCESS).json({ success: true, product });
         } catch (err) {
-            res.status(applicationStatus.INVALID_INPUT).json({ success: false, error: err.message });
+            res.status(applicationStatus.INVALID_INPUT).json({ success: false, error: err });
         }
     };
 
@@ -39,7 +39,7 @@ export class ProductController extends BaseController {
             const newProduct: IProduct = await product.save();
             res.status(applicationStatus.CREATED).json({ success: true, product: newProduct });
         } catch (err) {
-            res.status(applicationStatus.INVALID_INPUT).json({ success: false, error: err.message });
+            res.status(applicationStatus.INVALID_INPUT).json({ success: false, error: err });
         }
     };
 
@@ -50,7 +50,7 @@ export class ProductController extends BaseController {
             const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
             res.status(applicationStatus.SUCCESS).json({ success: true, message: 'Succesfully updated the product', updatedProduct });
         } catch (err) {
-            res.status(applicationStatus.INVALID_INPUT).json({ success: false, error: err.message });
+            res.status(applicationStatus.INVALID_INPUT).json({ success: false, error: err });
         }
     };
 
@@ -61,7 +61,7 @@ export class ProductController extends BaseController {
             await Product.deleteOne({ _id: req.params.id });
             res.status(applicationStatus.SUCCESS).json({ success: true, message: 'Succesfully deleted the product' });
         } catch (err) {
-            res.status(applicationStatus.INVALID_INPUT).json({ success: false, error: err.message });
+            res.status(applicationStatus.INVALID_INPUT).json({ success: false, error: err });
         }
     };
 }
