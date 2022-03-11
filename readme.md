@@ -1,10 +1,10 @@
 <img src="https://i.ibb.co/ft1p8PB/New-Project.png" alt="node-ex-mongo-ts" border="0">
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/hikmetkutuk/rest-api?color=red&style=for-the-badge)
-![.NodeJS](https://img.shields.io/static/v1?label=node%20js&message=15.2&color=brightgreen&style=for-the-badge)
+![.NodeJS](https://img.shields.io/static/v1?label=node%20js&message=16.14&color=brightgreen&style=for-the-badge)
 ![.Express](https://img.shields.io/static/v1?label=express%20js&message=4.17.1&color=inactive&style=for-the-badge)
 ![.Mongo](https://img.shields.io/static/v1?label=mongo%20db&message=5.10.15&color=green&style=for-the-badge)
-![TypeScript](https://img.shields.io/static/v1?label=typescript&message=4.1.2&color=blue&style=for-the-badge)
+![TypeScript](https://img.shields.io/static/v1?label=typescript&message=4.1.3&color=blue&style=for-the-badge)
 
 # REST API
 

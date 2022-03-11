@@ -21,7 +21,7 @@ services:
     volumes:
       - mongo_db:/data/db
     environment:
-      - MONGO_INITDB_DATABASE:rest_api
+      - DB_NAME:rest_api
 
 volumes:
   mongo_db: {}
