@@ -61,3 +61,12 @@ Writing types can be optional in TypeScript, because type inference allows you t
 ```
 $ npm install typescript --save-dev
 ```
+
+## Sentry
+Sentry.io is an external monitoring and logging service which can help you identify and triage errors in your code.
+
+```
+npm install --save @sentry/node @sentry/tracing
+```
+
+#### [Sentry Documentation](https://docs.sentry.io/platforms/node/)

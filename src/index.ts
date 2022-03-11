@@ -5,7 +5,9 @@ import cookieParser from 'cookie-parser';
 import logging from './infrastructure/config/logging';
 import config from './infrastructure/config';
 import connect from './infrastructure/config/database';
+import sentry from './infrastructure/service/sentry';
 import routes from './web/router/routes';
+import { errorHandler, requestHandler, tracingHandler } from '@sentry/node/dist/handlers';
 
 const NAMESPACE = 'Server';
 const db: string = config.server.uri;
@@ -44,6 +46,12 @@ app.use((req, res, next) => {
 
 // Routes
 app.use(routes);
+
+// Connect sentry
+sentry();
+app.use(requestHandler());
+app.use(tracingHandler());
+app.use(errorHandler());
 
 // Error Handling
 app.use((req, res, next) => {
